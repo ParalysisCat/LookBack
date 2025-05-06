@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Entries - LookBack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #F8F1E9;
+            --text-color: #6B4F4F;
+            --primary-color: #E8C4C4;
+            --secondary-color: #D7B4B4;
+            --accent-color: #C88EA7;
+            --light-color: #ffffff;
+            --border-color: #E0D3C7;
+            --shadow: 0 4px 6px rgba(107, 79, 79, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--light-color);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links a.active {
+            color: var(--accent-color);
+            position: relative;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .logout-btn {
+            background-color: var(--text-color);
+            color: var(--light-color);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background-color: #5a4242;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 2px 0;
+            border-radius: 3px;
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 40px 0;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .new-entry-btn {
+            background-color: var(--accent-color);
+            color: var(--light-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .new-entry-btn:hover {
+            background-color: #b67e95;
+            transform: translateY(-2px);
+        }
+
+        /* Search and Filter Section */
+        .search-filter {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(200, 142, 167, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8d7b7b;
+        }
+
+        .filter-dropdown {
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--text-color);
+            background-color: var(--light-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-dropdown:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        /* Entries Grid */
+        .entries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .entry-card {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .entry-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(107, 79, 79, 0.15);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .entry-title {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .entry-date {
+            color: #8d7b7b;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .entry-preview {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            color: #7c6868;
+            flex-grow: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+        }
+
+        .entry-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .action-btn {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            background-color: var(--bg-color);
+        }
+
+        .action-btn.edit:hover {
+            color: #6b8e8e;
+        }
+
+        .action-btn.delete:hover {
+            color: #c25e5e;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .page-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        .page-btn.active {
+            background-color: var(--accent-color);
+            color: var(--light-color);
+            border-color: var(--accent-color);
+        }
+
+        .page-btn.prev,
+        .page-btn.next {
+            width: auto;
+            padding: 0 15px;
+            border-radius: 20px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--light-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .empty-state p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #8d7b7b;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #dbb6b6;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--light-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #b67e95;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--light-color);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .search-filter {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .entries-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pagination {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* For demo purposes - toggle menu */
+        #menu-checkbox {
+            display: none;
+        }
+
+        #menu-checkbox:checked ~ .nav-links {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">Look<span>Back</span></a>
+                
+                <input type="checkbox" id="menu-checkbox">
+                <label for="menu-checkbox" class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+                
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="all-entries.html" class="active">All Entries</a>
+                    <a href="#">Profile</a>
+                    <button class="logout-btn">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">All Entries</h1>
+            <button class="new-entry-btn">
+                <span>✏️</span> New Entry
+            </button>
+        </div>
+
+        <div class="search-filter">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search entries...">
+            </div>
+            <select class="filter-dropdown">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="a-z">A-Z</option>
+                <option value="z-a">Z-A</option>
+            </select>
+        </div>
+
+        <!-- Entries Grid - Normal State -->
+        <div class="entries-grid">
+            <!-- Entry 1 -->
+            <div class="entry-card">
+                <div class="entry-header">
+                    <h3 class="entry-title">March 2024: A Rainy Day</h3>
+                    <span class="entry-date">Mar 4, 2024</span>
+                </div>
+                <div class="entry-preview">
+                    <p>Today I stayed indoors reading. I forgot how calming rainy days can be when I'm not rushing. I should do this more often.</p>
+                </div>
+                <div class="entry-actions">
+                    <button class="action-btn view">View</button>
+                    <button class="action-btn edit">Edit</button>
+                    <button class="action-btn delete">Delete</button>
+                </div>
+            </div>
+
+            <!-- Entry 2 -->
+            <div class="entry-card">
+                <div class="entry-header">
+                    <h3 class="entry-title">First Day at New Job</h3>
+                    <span class="entry-date">Feb 15, 2024</span>
+                </div>
+                <div class="entry-preview">
+                    <p>Nervous but excited! Everyone was welcoming and the office has a great view. I think I'm going to like it here. Need to remember names better though.</p>
+                </div>
+                <div class="entry-actions">
+                    <button class="action-btn view">View</button>
+                    <button class="action-btn edit">Edit</button>
+                    <button class="action-btn delete">Delete</button>
+                </div>
+            </div>
+
+            <!-- Entry 3 -->
+            <div class="entry-card">
+                <div class="entry-header">
+                    <h3 class="entry-title">Weekend Hike</h3>
+                    <span class="entry-date">Jan 28, 2024</span>
+                </div>
+                <div class="entry-preview">
+                    <p>The trail was more challenging than expected, but the view at the summit was worth every step. Packed too much water and not enough snacks.</p>
+                </div>
+                <div class="entry-actions">
+                    <button class="action-btn view">View</button>
+                    <button class="action-btn edit">Edit</button>
+                    <button class="action-btn delete">Delete</button>
+                </div>
+            </div>
+
+            <!-- Entry 4 -->
+            <div class="entry-card">
+                <div class="entry-header">
+                    <h3 class="entry-title">New Year Reflections</h3>
+                    <span class="entry-date">Jan 1, 2024</span>
+                </div>
+                <div class="entry-preview">
+                    <p>Looking back at 2023, I'm proud of how much I've grown. This year I want to focus more on health and creativity. Maybe start that podcast I've been thinking about.</p>
+                </div>
+                <div class="entry-actions">
+                    <button class="action-btn view">View</button>
+                    <button class="action-btn edit">Edit</button>
+                    <button class="action-btn delete">Delete</button>
+                </div>
+            </div>
+
+            <!-- Entry 5 -->
+            <div class="entry-card">
+                <div class="entry-header">
+                    <h3 class="entry-title">Holiday Dinner Success</h3>
+                    <span class="entry-date">Dec 25, 2023</span>
+                </div>
+                <div class="entry-preview">
+                    <p>First time hosting and everything turned out great! Mom's recipe for apple pie was a hit. Next year I'll start preparations a day earlier though.</p>
+                </div>
+                <div class="entry-actions">
+                    <button class="action-btn view">View</button>
+                    <button class="action-btn edit">Edit</button>
+                    <button class="action-btn delete">Delete</button>
+                </div>
+            </div>
+
+            <!-- Entry 6 -->
+            <div class="entry-card">
+                <div class="entry-header">
+                    <h3 class="entry-title">Book Club Thoughts</h3>
+                    <span class="entry-date">Nov 18, 2023</span>
+                </div>
+                <div class="entry-preview">
+                    <p>We discussed "The Midnight Library" today. I loved the concept but Sarah had some interesting criticisms. Need to think more about the ending.</p>
+                </div>
+                <div class="entry-actions">
+                    <button class="action-btn view">View</button>
+                    <button class="action-btn edit">Edit</button>
+                    <button class="action-btn delete">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State (hidden by default) -->
+        <div class="empty-state" style="display: none;">
+            <p>You haven't created any entries yet.</p>
+            <a href="index.html" class="btn btn-primary">Start Writing</a>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="page-btn prev">Prev</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn next">Next</button>
+        </div>
+    </main>
+</body>
+</html>
